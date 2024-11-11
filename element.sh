@@ -11,11 +11,11 @@ fi
 # fail if reading ERROR or if response is blank
 
 if [[ $1 =~ ^[0-9]+$ ]]; then
-  echo "detected number"
+  echo $($PSQL "SELECT * FROM properties FULL JOIN elements ON properties.atomic_number = elements.atomic_number FULL JOIN types ON properties.type_id = types.type_id WHERE properties.atomic_number=$1")
 elif [[ $1 =~ ^[A-Z]$|^[A-Z][a-z]$ ]]; then
-  echo "detected symbol"
-elif [[ $1 =~ ^[a-zA-Z]+$ ]]; then
-  echo "detected name"
+  echo $($PSQL "SELECT * FROM properties FULL JOIN elements ON properties.atomic_number = elements.atomic_number FULL JOIN types ON properties.type_id = types.type_id WHERE elements.symbol='$1'")
+elif [[ $1 =~ ^[a-zA-Z]+$ ]]; the
+  echo $($PSQL "SELECT * FROM properties FULL JOIN elements ON properties.atomic_number = elements.atomic_number FULL JOIN types ON properties.type_id = types.type_id WHERE elements.name='$1'")
 else
-  echo "detected none"
+  echo "I could not find that element in the database."
 fi
